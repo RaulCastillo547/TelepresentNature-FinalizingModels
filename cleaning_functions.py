@@ -1,4 +1,5 @@
 import datetime as dt
+import os
 
 import numpy as np
 import pandas as pd
@@ -143,9 +144,34 @@ def interpolation_clean_moose(url_dest='CSVFiles/CleanCSV/Moose/'):
         specific_moose.drop(columns=['to_keep'], inplace=True)
         specific_moose[['external-temperature', 'longitude', 'latitude', 'altitude']].to_csv(f'{url_dest}{moose_tag}_interpolated.csv', index=True, index_label='timestamp')
 
+def combine_deer_temperature_data(temperature_url="CSVFiles/RawCSV/DeerTemperatureData"):
+    # Get list of temperature files
+    files = os.listdir(temperature_url)
+
+    # Concat all files
+    all_dfs = pd.DataFrame()
+    for file in files:
+        new_df = pd.read_csv(temperature_url + "/" + file)
+        all_dfs = pd.concat([all_dfs, new_df], ignore_index=True)
+    
+    # Convert datetime column to datetime values and sort
+    all_dfs['datetime'] = all_dfs['datetime'].map(lambda x: dt.datetime.fromisoformat(x))
+    all_dfs.sort_values("datetime", inplace=True)
+
+
+    name_col = all_dfs['name']
+    all_dfs = all_dfs.select_dtypes(['number', 'datetime']).set_index('datetime').interpolate(method='time')
+    all_dfs.dropna(axis=1, how='all', inplace=True)
+    all_dfs.reset_index(inplace=True)
+    all_dfs['name'] = name_col
+
+    all_dfs.to_csv("CSVFiles/CleanCSV/Deer/temperature_data.csv", index=False)
+
 if __name__ == '__main__':
     basic_clean_deer()
     interpolation_clean_deer()
     
     basic_clean_moose()
     interpolation_clean_moose()
+    
+    combine_deer_temperature_data()

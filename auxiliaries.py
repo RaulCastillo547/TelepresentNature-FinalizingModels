@@ -26,6 +26,10 @@ class RegressiveWindow():
         self.test_df = self.orig_df[int(n*0.7):]
 
         # Apply Virtual Crossing temperature data to testing set
+        # Currently, we only have deer temperature data; you would need to find temperature data for Fort McMurray, Alberta, Canada
+        # and delete the assert statement
+        assert species != 'Moose'
+
         self.temp_df = pd.read_csv(f'CSVFiles/CleanCSV/{species}/temperature_data.csv')
         self.temp_df = self.temp_df[['datetime', 'temp']]
         self.temp_df.rename(columns={'datetime': 'timestamp', 'temp':'temperature'}, inplace=True)
@@ -170,6 +174,10 @@ class ReversedRegressiveWindow():
         self.test_df = self.orig_df[int(n*0.7):]
 
         # Apply Virtual Crossing temperature data to testing set
+        # Currently, we only have deer temperature data; you would need to find temperature data for Fort McMurray, Alberta, Canada
+        # and delete the assert statement
+        assert species != 'Moose'
+
         self.temp_df = pd.read_csv(f'CSVFiles/CleanCSV/{species}/temperature_data.csv')
         self.temp_df = self.temp_df[['datetime', 'temp']]
         self.temp_df.rename(columns={'datetime': 'timestamp', 'temp':'temperature'}, inplace=True)
