@@ -1,11 +1,8 @@
 import datetime
-import math
-import random
 
 import numpy as np
 from matplotlib import pyplot as plt
 import pandas as pd
-from sklearn.cluster import KMeans
 from sklearn.neighbors import KNeighborsRegressor
 import tensorflow as tf
 
@@ -21,6 +18,7 @@ class RegressiveWindow():
         self.orig_df['month'] = self.orig_df['timestamp'].map(lambda x: x.month)
         self.orig_df['day'] = self.orig_df['timestamp'].map(lambda x: x.day)
         self.timeline = self.orig_df.pop('timestamp')
+        self.orig_df.pop('altitude')
 
         # Split data up
         n = len(self.orig_df)
@@ -92,6 +90,7 @@ class RegressiveWindow():
             # Derive input variables
             i = 0
             while (True):
+                # Gets the previous temperature value if it has not been found in the given time
                 if ((curr_date - datetime.timedelta(hours=i*timedelta)) in self.temp_df.index):
                     external_temp = self.temp_df.loc[curr_date, 'temperature']
                     break
@@ -163,6 +162,7 @@ class ReversedRegressiveWindow():
         self.orig_df['month'] = self.orig_df['timestamp'].map(lambda x: x.month)
         self.orig_df['day'] = self.orig_df['timestamp'].map(lambda x: x.day)
         self.timeline = self.orig_df.pop('timestamp')
+        self.orig_df.pop('altitude')
 
         # Split data up
         n = len(self.orig_df)
