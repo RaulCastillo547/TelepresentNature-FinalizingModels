@@ -9,7 +9,8 @@ import tensorflow as tf
 MAX_EPOCS = 20
 OUT_STEPS = 100
 
-class RegressiveWindow():
+# Handles train and test split for Future-Prediction Model
+class FuturePredictionWindow():
     def __init__(self, species, file_name):
         # Load and add month and day values
         self.orig_df = pd.read_csv(f'CSVFiles/CleanCSV/{species}/{file_name}.csv')
@@ -157,7 +158,8 @@ class RegressiveWindow():
         
         return history
 
-class ReversedRegressiveWindow():
+# Handles train and test split for Past-Prediction Model
+class PastPredictionWindow():
     def __init__(self, species, file_name):
         # Load and add month and day values
         self.orig_df = pd.read_csv(f'CSVFiles/CleanCSV/{species}/{file_name}.csv').iloc[::-1].reset_index(drop=True)
