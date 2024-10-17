@@ -37,6 +37,11 @@ class FuturePredictionWindow():
         self.temp_df['timestamp'] = pd.DatetimeIndex(self.temp_df['timestamp'])
         self.temp_df.set_index('timestamp', inplace=True)
 
+        for index in self.train_df.index:
+            curr_date = self.timeline.loc[index]
+            curr_date = curr_date.replace(minute=0, second=0, microsecond=0)
+            self.train_df.loc[index, 'external-temperature'] = self.temp_df.loc[curr_date, 'temperature']
+        
         for index in self.test_df.index:
             curr_date = self.timeline.loc[index]
             curr_date = curr_date.replace(minute=0, second=0, microsecond=0)
@@ -185,6 +190,11 @@ class PastPredictionWindow():
         self.temp_df.rename(columns={'datetime': 'timestamp', 'temp':'temperature'}, inplace=True)
         self.temp_df['timestamp'] = pd.DatetimeIndex(self.temp_df['timestamp'])
         self.temp_df.set_index('timestamp', inplace=True)
+
+        for index in self.train_df.index:
+            curr_date = self.timeline.loc[index]
+            curr_date = curr_date.replace(minute=0, second=0, microsecond=0)
+            self.train_df.loc[index, 'external-temperature'] = self.temp_df.loc[curr_date, 'temperature']
 
         for index in self.test_df.index:
             curr_date = self.timeline.loc[index]
