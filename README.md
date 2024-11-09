@@ -26,7 +26,8 @@ These models will be used in Telepresent Nature, a tangible user interface that 
 - ModelFiles: .keras files with the models' settings
 - `auxiliaries.py`: Contains classes, functions, and constants associated with the models' design
 - `cleaning_functions.py`: Contains functions for the creation of the csv files in the CSVFile/CleanCSV and CSVFile/RawCSV/trento_temperature_data.csv
-- `data_analysis.ipynb`: Contains analysis of the ata from the moose and deer datasets
+- `data_analysis.ipynb`: Contains analysis of the data from the moose and deer datasets
+- `model_data_analysis.ipynb`: Contains analysis of the results of the AI model on the deer datasets
 - `model_running.ipynb`: Contains code training and testing the models
 - `README.md`
 - `requirements.txt`
